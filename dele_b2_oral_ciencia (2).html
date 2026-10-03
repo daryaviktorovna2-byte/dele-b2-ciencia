@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELE B2 Oral: Ciencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ec;
+    --paper: #ffffff;
+    --ink: #1f2430;
+    --muted: #5d6475;
+    --line: #e2ddd1;
+    --accent: #b8432f;
+    --accent-soft: #f6e3de;
+    --t1: #2f6f8f;
+    --t2: #7a4e9c;
+    --t3: #3d7d4f;
+    --quote: #faf8f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15171c; --paper: #1e2128; --ink: #ece9e2; --muted: #a3a8b5;
+      --line: #333843; --accent: #e07a62; --accent-soft: #3a2621;
+      --t1: #6fb3d4; --t2: #b893d6; --t3: #7dc492; --quote: #252931;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15171c; --paper: #1e2128; --ink: #ece9e2; --muted: #a3a8b5;
+    --line: #333843; --accent: #e07a62; --accent-soft: #3a2621;
+    --t1: #6fb3d4; --t2: #b893d6; --t3: #7dc492; --quote: #252931;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: Inter, system-ui, sans-serif; line-height: 1.6; font-size: 16px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  header h1 {
+    font-family: Fraunces, Georgia, serif; font-size: clamp(1.8rem, 5vw, 2.6rem);
+    margin: 0 0 4px; line-height: 1.15;
+  }
+  header p { color: var(--muted); margin: 0 0 24px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tab {
+    border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+    padding: 10px 16px; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 500;
+  }
+  .tab[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .task { display: none; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 16px; padding: 28px 24px; }
+  .task.active { display: block; }
+  .task[data-c="1"] { border-top: 6px solid var(--t1); }
+  .task[data-c="2"] { border-top: 6px solid var(--t2); }
+  .task[data-c="3"] { border-top: 6px solid var(--t3); }
+  .kicker { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+  h2 { font-family: Fraunces, Georgia, serif; font-size: 1.6rem; margin: 4px 0 4px; }
+  .meta { color: var(--muted); font-size: .92rem; margin-bottom: 18px; }
+  h3 { font-size: 1rem; margin: 24px 0 8px; }
+  .instr { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-size: .95rem; }
+  .card { background: var(--quote); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 16px; }
+  .card p.lead { font-weight: 600; margin-top: 0; }
+  .props { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .props li { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .photo {
+    border: 2px dashed var(--line); border-radius: 12px; padding: 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .photo svg { flex: none; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  td, th { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  th { font-size: .85rem; color: var(--muted); font-weight: 600; }
+  .bar { height: 10px; background: var(--t3); border-radius: 6px; }
+  .pct { font-weight: 600; white-space: nowrap; }
+  .src { font-size: .85rem; color: var(--muted); margin-top: 8px; }
+  ul.q { padding-left: 20px; margin: 0; }
+  ul.q li { margin-bottom: 4px; }
+  .timer {
+    margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    border-top: 1px solid var(--line); padding-top: 18px;
+  }
+  .clock { font-family: Fraunces, Georgia, serif; font-size: 2rem; min-width: 96px; }
+  .btn {
+    font: inherit; font-weight: 500; border: 1px solid var(--line); background: var(--paper);
+    color: var(--ink); padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chunks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .chunk { background: var(--quote); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .chunk h4 { margin: 0 0 8px; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+  .chunk ul { list-style: none; margin: 0; padding: 0; }
+  .chunk li { padding: 4px 0; border-bottom: 1px dashed var(--line); font-size: .95rem; }
+  .chunk li:last-child { border-bottom: 0; }
+  .chunk em { color: var(--muted); font-style: normal; font-size: .85rem; }
+  .scene { width: 100%; height: auto; display: block; border-radius: 10px; }
+  .figcap { font-size: .95rem; margin-top: 12px; }
+  .general { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-top: 20px; }
+  .general h3 { margin-top: 0; }
+  .vocab { display: flex; flex-wrap: wrap; gap: 6px; }
+  .vocab span { background: var(--quote); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: .9rem; }
+  @media print {
+    .tabs, .timer { display: none; }
+    .task { display: block !important; page-break-after: always; border: none; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>DELE B2 · Expresión e interacción orales</h1>
+    <p>Tres tareas de práctica sobre temas de ciencia</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-target="t1">Tarea 1 · Fuga de cerebros</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="t2">Tarea 2 · Mujeres en la ciencia</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="t3">Tarea 3 · Exploración espacial</button>
+  </div>
+
+  <!-- TAREA 1 -->
+  <section class="task active" id="t1" data-c="1">
+    <div class="kicker">Tarea 1 · Valorar propuestas</div>
+    <h2>La fuga de cerebros</h2>
+    <div class="meta">Preparación: 20 min (junto con la Tarea 2) · Duración: 6–7 min</div>
+
+    <div class="instr">Le proponemos un tema con algunas propuestas para debatir. Durante 3–4 minutos, hable sobre las ventajas y los inconvenientes de las propuestas. Después, converse con el entrevistador sobre el tema durante 2–3 minutos.</div>
+
+    <div class="card">
+      <p class="lead">Muchos jóvenes científicos se van a trabajar al extranjero porque no encuentran oportunidades en su país. Un grupo de expertos se ha reunido para buscar soluciones. Estas son sus propuestas:</p>
+      <ul class="props">
+        <li>«Yo subiría los sueldos de los investigadores para que sean iguales a los de otros países europeos».</li>
+        <li>«Creo que habría que dar contratos estables y no solo becas de uno o dos años».</li>
+        <li>«Las empresas privadas deberían invertir más en investigación, y el Estado debería ayudarlas con menos impuestos».</li>
+        <li>«Yo crearía un programa especial para que los científicos que se han ido puedan volver con un buen puesto».</li>
+        <li>«No es un problema. Que los científicos trabajen fuera es bueno porque aprenden y luego comparten su conocimiento».</li>
+        <li>«Es necesario reducir la burocracia: los investigadores pierden demasiado tiempo con papeles».</li>
+      </ul>
+    </div>
+
+    <h3>Para hablar</h3>
+    <ul class="q">
+      <li>¿Qué propuesta le parece mejor? ¿Cuál no funcionaría? ¿Por qué?</li>
+      <li>¿Qué pasa con los científicos en su país?</li>
+      <li>¿Se iría usted a trabajar a otro país?</li>
+    </ul>
+
+    <h3>Posibles preguntas del entrevistador</h3>
+    <ul class="q">
+      <li>¿Por qué cree que el gobierno no invierte más en ciencia?</li>
+      <li>¿Es justo que el dinero público forme a científicos que luego trabajan en otro país?</li>
+      <li>Si usted fuera ministro de Ciencia, ¿qué haría primero?</li>
+    </ul>
+
+    <h3>Frases útiles</h3>
+    <div class="chunks">
+      <div class="chunk"><h4>Empezar y organizar</h4><ul>
+        <li>Voy a hablar de las propuestas sobre…</li>
+        <li>Por un lado… por otro lado…</li>
+        <li>En cuanto a la primera propuesta…</li>
+        <li>Pasando a la siguiente…</li>
+      </ul></div>
+      <div class="chunk"><h4>Valorar positivamente</h4><ul>
+        <li>Me parece una buena idea que <em>+ subjuntivo</em></li>
+        <li>Estoy totalmente de acuerdo con…</li>
+        <li>Lo bueno de esta propuesta es que…</li>
+        <li>Esta medida podría ayudar a…</li>
+      </ul></div>
+      <div class="chunk"><h4>Valorar negativamente</h4><ul>
+        <li>No estoy del todo de acuerdo con…</li>
+        <li>Lo que no me convence es que…</li>
+        <li>El problema de esta propuesta es que…</li>
+        <li>Dudo que <em>+ subjuntivo</em> funcione, porque…</li>
+      </ul></div>
+      <div class="chunk"><h4>Proponer e hipotetizar</h4><ul>
+        <li>Lo ideal sería que <em>+ imperf. subjuntivo</em></li>
+        <li>Si yo fuera ministro/a, <em>+ condicional</em></li>
+        <li>Yo, en su lugar, propondría…</li>
+        <li>Habría que tener en cuenta que…</li>
+      </ul></div>
+      <div class="chunk"><h4>Concluir</h4><ul>
+        <li>En resumen, yo me quedaría con…</li>
+        <li>Para terminar, creo que lo más importante es…</li>
+        <li>Si tuviera que elegir una, sería…</li>
+      </ul></div>
+    </div>
+
+    <h3>Vocabulario útil</h3>
+    <div class="vocab"><span>investigador/a</span><span>financiación</span><span>beca</span><span>contrato estable</span><span>emigrar</span><span>retener el talento</span><span>burocracia</span><span>inversión</span></div>
+
+    <div class="timer" data-presets="1200,240,180">
+      <span class="clock">20:00</span>
+      <button class="btn primary" data-act="start">Iniciar</button>
+      <button class="btn" data-act="reset">Reiniciar</button>
+      <button class="btn" data-set="1200">Preparar 20 min</button>
+      <button class="btn" data-set="240">Monólogo 4 min</button>
+      <button class="btn" data-set="180">Conversación 3 min</button>
+    </div>
+  </section>
+
+  <!-- TAREA 2 -->
+  <section class="task" id="t2" data-c="2">
+    <div class="kicker">Tarea 2 · Describir una fotografía</div>
+    <h2>Las mujeres en la ciencia</h2>
+    <div class="meta">Duración: 5–6 min</div>
+
+    <div class="instr">Describa la fotografía e imagine la situación durante 2–3 minutos. Después, el entrevistador le hará preguntas sobre el tema.</div>
+
+    <div class="card">
+      <svg class="scene" viewBox="0 0 640 400" role="img" aria-label="Una científica mira por un microscopio en un laboratorio mientras dos estudiantes la observan">
+        <!-- pared y suelo -->
+        <rect width="640" height="400" fill="#e6edf1"/>
+        <rect y="300" width="640" height="100" fill="#c9d3da"/>
+        <!-- ventana -->
+        <rect x="270" y="30" width="120" height="90" rx="4" fill="#cfe6f5" stroke="#aebcc6" stroke-width="4"/>
+        <line x1="330" y1="30" x2="330" y2="120" stroke="#aebcc6" stroke-width="3"/>
+        <!-- estanterías con tubos -->
+        <rect x="24" y="40" width="200" height="8" fill="#9b8466"/>
+        <rect x="24" y="110" width="200" height="8" fill="#9b8466"/>
+        <g>
+          <rect x="40" y="10" width="12" height="30" rx="5" fill="#ffffff" stroke="#9fb0bb"/><rect x="40" y="24" width="12" height="16" rx="5" fill="#6cc3a0"/>
+          <rect x="62" y="14" width="12" height="26" rx="5" fill="#ffffff" stroke="#9fb0bb"/><rect x="62" y="26" width="12" height="14" rx="5" fill="#e8846b"/>
+          <rect x="84" y="10" width="12" height="30" rx="5" fill="#ffffff" stroke="#9fb0bb"/><rect x="84" y="20" width="12" height="20" rx="5" fill="#6aa6d8"/>
+          <path d="M120 40 L130 16 L146 16 L156 40 Z" fill="#ffffff" stroke="#9fb0bb"/><path d="M124 40 L131 26 L145 26 L152 40 Z" fill="#f2c45a"/>
+          <rect x="172" y="16" width="34" height="24" rx="3" fill="#d9c7a8"/>
+          <rect x="40" y="78" width="12" height="32" rx="5" fill="#ffffff" stroke="#9fb0bb"/><rect x="40" y="94" width="12" height="16" rx="5" fill="#a98bd6"/>
+          <rect x="62" y="82" width="12" height="28" rx="5" fill="#ffffff" stroke="#9fb0bb"/><rect x="62" y="96" width="12" height="14" rx="5" fill="#6cc3a0"/>
+          <circle cx="110" cy="96" r="14" fill="#ffffff" stroke="#9fb0bb"/><circle cx="110" cy="100" r="10" fill="#6aa6d8"/>
+          <rect x="140" y="80" width="60" height="30" rx="3" fill="#b9c7d2"/>
+        </g>
+        <!-- pantalla con gráfico -->
+        <rect x="440" y="36" width="170" height="110" rx="6" fill="#26303b"/>
+        <polyline points="456,128 480,110 502,118 526,84 550,94 574,62 596,70" fill="none" stroke="#6ee0a8" stroke-width="3"/>
+        <line x1="456" y1="132" x2="598" y2="132" stroke="#5c6b78"/>
+        <rect x="515" y="146" width="20" height="18" fill="#3a4550"/>
+
+        <!-- científica -->
+        <path d="M222 300 L232 214 Q262 196 292 214 L304 300 Z" fill="#ffffff" stroke="#c4ccd2" stroke-width="2"/>
+        <path d="M262 206 L254 232 L262 228 L270 232 Z" fill="#7aa7c7"/>
+        <path d="M238 222 Q214 240 206 262" stroke="#ffffff" stroke-width="16" stroke-linecap="round" fill="none"/>
+        <path d="M238 222 Q214 240 206 262" stroke="#c4ccd2" stroke-width="2" fill="none"/>
+        <circle cx="206" cy="264" r="7" fill="#d9a07a"/>
+        <circle cx="250" cy="180" r="24" fill="#d9a07a"/>
+        <path d="M228 176 Q232 150 256 152 Q276 154 276 178 Q284 196 290 212 Q276 200 272 184 Q262 168 240 170 Q232 172 228 176 Z" fill="#4a2f25"/>
+        <rect x="226" y="172" width="30" height="12" rx="6" fill="#bfe3f2" fill-opacity=".85" stroke="#4a6a7a" stroke-width="2"/>
+
+        <!-- chica con cuaderno -->
+        <path d="M368 300 L376 228 Q400 214 424 228 L432 300 Z" fill="#e5785a"/>
+        <circle cx="400" cy="194" r="22" fill="#b97a55"/>
+        <path d="M376 196 Q374 166 400 166 Q426 166 424 196 L428 240 L418 240 L416 198 Q404 186 384 196 L382 240 L372 240 Z" fill="#2b1d17"/>
+        <circle cx="392" cy="196" r="2" fill="#2b1d17"/><circle cx="408" cy="196" r="2" fill="#2b1d17"/>
+        <path d="M394 206 Q400 210 406 206" stroke="#2b1d17" stroke-width="2" fill="none"/>
+        <rect x="378" y="244" width="46" height="34" rx="3" fill="#ffffff" stroke="#9fb0bb" stroke-width="2" transform="rotate(-8 401 261)"/>
+        <g stroke="#9fb0bb" stroke-width="1.5" transform="rotate(-8 401 261)"><line x1="384" y1="254" x2="418" y2="254"/><line x1="384" y1="261" x2="418" y2="261"/><line x1="384" y1="268" x2="410" y2="268"/></g>
+        <line x1="424" y1="250" x2="440" y2="236" stroke="#3a5bb0" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- chico -->
+        <path d="M478 300 L486 224 Q512 208 538 224 L546 300 Z" fill="#4f7fb0"/>
+        <circle cx="512" cy="186" r="23" fill="#f0c8a4"/>
+        <path d="M489 182 Q490 158 514 160 Q536 160 535 184 Q528 170 512 172 Q496 172 489 182 Z" fill="#8a5a2b"/>
+        <circle cx="504" cy="188" r="2" fill="#2b1d17"/><circle cx="520" cy="188" r="2" fill="#2b1d17"/>
+        <path d="M506 198 Q512 202 518 198" stroke="#2b1d17" stroke-width="2" fill="none"/>
+        <path d="M486 236 Q470 262 492 282" stroke="#4f7fb0" stroke-width="14" stroke-linecap="round" fill="none"/>
+
+        <!-- mesa del laboratorio -->
+        <rect x="0" y="286" width="640" height="16" fill="#5f6b76"/>
+        <rect x="0" y="302" width="640" height="98" fill="#8796a2"/>
+        <rect x="40" y="316" width="160" height="70" rx="4" fill="#7b8a96"/>
+        <rect x="440" y="316" width="160" height="70" rx="4" fill="#7b8a96"/>
+
+        <!-- microscopio -->
+        <rect x="150" y="276" width="64" height="10" rx="3" fill="#2f3a44"/>
+        <path d="M168 276 L168 232 Q168 214 186 210 L196 208" stroke="#2f3a44" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <rect x="186" y="196" width="18" height="44" rx="4" fill="#d8dee3" stroke="#2f3a44" stroke-width="3" transform="rotate(-30 195 218)"/>
+        <rect x="180" y="250" width="34" height="6" fill="#2f3a44"/>
+        <rect x="190" y="244" width="16" height="6" fill="#bfe3f2"/>
+        <!-- gradilla -->
+        <rect x="292" y="270" width="54" height="16" rx="2" fill="#f2c45a"/>
+        <rect x="298" y="246" width="9" height="30" rx="4" fill="#ffffff" stroke="#9fb0bb"/><rect x="298" y="262" width="9" height="14" rx="4" fill="#e8846b"/>
+        <rect x="314" y="250" width="9" height="26" rx="4" fill="#ffffff" stroke="#9fb0bb"/><rect x="314" y="262" width="9" height="14" rx="4" fill="#6cc3a0"/>
+        <rect x="330" y="246" width="9" height="30" rx="4" fill="#ffffff" stroke="#9fb0bb"/><rect x="330" y="260" width="9" height="16" rx="4" fill="#6aa6d8"/>
+      </svg>
+      <p class="figcap"><strong>Fotografía:</strong> En un laboratorio, una científica con bata blanca y gafas de protección mira por un microscopio. A su lado, dos estudiantes adolescentes la observan con atención y la chica toma notas en un cuaderno. Al fondo hay estanterías con tubos de ensayo y una pantalla con un gráfico.</p>
+    </div>
+
+    <h3>Para hablar</h3>
+    <ul class="q">
+      <li>¿Quiénes son estas personas? ¿Dónde están y por qué?</li>
+      <li>¿Qué están haciendo? ¿Qué cree que les explica la científica?</li>
+      <li>¿Qué piensan los estudiantes? ¿Qué pasará después?</li>
+    </ul>
+
+    <h3>Posibles preguntas del entrevistador</h3>
+    <ul class="q">
+      <li>¿Por qué cree que hay menos mujeres que hombres en algunas carreras científicas?</li>
+      <li>¿Conoce a alguna científica famosa de su país o de la historia?</li>
+      <li>¿Le interesaba la ciencia cuando estaba en el colegio? ¿Por qué?</li>
+      <li>¿Qué se podría hacer para que más chicas estudien ciencias?</li>
+    </ul>
+
+    <h3>Frases útiles</h3>
+    <div class="chunks">
+      <div class="chunk"><h4>Situar en la imagen</h4><ul>
+        <li>En la foto se ve / aparece…</li>
+        <li>En primer plano hay…</li>
+        <li>Al fondo / A la izquierda / A la derecha…</li>
+        <li>Al lado de la científica están…</li>
+      </ul></div>
+      <div class="chunk"><h4>Hacer suposiciones</h4><ul>
+        <li>Parece que… / Da la impresión de que…</li>
+        <li>Me imagino que…</li>
+        <li>Debe de ser una investigadora que…</li>
+        <li>Puede que <em>+ subjuntivo</em></li>
+        <li>Quizás / Tal vez estén hablando de…</li>
+      </ul></div>
+      <div class="chunk"><h4>Imaginar antes y después</h4><ul>
+        <li>Supongo que antes habrán…</li>
+        <li>Seguramente después…</li>
+        <li>Es probable que luego <em>+ subjuntivo</em></li>
+      </ul></div>
+      <div class="chunk"><h4>Expresar sentimientos</h4><ul>
+        <li>Se nota que están interesados en…</li>
+        <li>Parecen sorprendidos / concentrados</li>
+        <li>A la chica le encanta / le fascina…</li>
+      </ul></div>
+      <div class="chunk"><h4>Relacionar con tu experiencia</h4><ul>
+        <li>Esto me recuerda a cuando yo…</li>
+        <li>En mi caso, cuando estaba en el colegio…</li>
+        <li>En mi país es bastante habitual que <em>+ subjuntivo</em></li>
+      </ul></div>
+    </div>
+
+    <h3>Vocabulario útil</h3>
+    <div class="vocab"><span>laboratorio</span><span>bata</span><span>microscopio</span><span>experimento</span><span>vocación</span><span>estereotipo</span><span>igualdad de oportunidades</span><span>referente</span></div>
+
+    <div class="timer">
+      <span class="clock">03:00</span>
+      <button class="btn primary" data-act="start">Iniciar</button>
+      <button class="btn" data-act="reset">Reiniciar</button>
+      <button class="btn" data-set="180">Descripción 3 min</button>
+      <button class="btn" data-set="180">Conversación 3 min</button>
+    </div>
+  </section>
+
+  <!-- TAREA 3 -->
+  <section class="task" id="t3" data-c="3">
+    <div class="kicker">Tarea 3 · Comentar una encuesta</div>
+    <h2>La exploración espacial</h2>
+    <div class="meta">Sin preparación previa · Duración: 3–4 min</div>
+
+    <div class="instr">Responda primero a la pregunta de la encuesta. Después, compare su respuesta con los resultados y coméntelos con el entrevistador.</div>
+
+    <div class="card">
+      <p class="lead">¿Cree que los gobiernos deben gastar dinero en la exploración espacial?</p>
+      <table>
+        <thead><tr><th>Respuesta</th><th style="width:35%"></th><th>%</th></tr></thead>
+        <tbody>
+          <tr><td>Sí, es importante para el avance de la ciencia</td><td><div class="bar" style="width:76%"></div></td><td class="pct">38 %</td></tr>
+          <tr><td>No, hay problemas más urgentes en la Tierra</td><td><div class="bar" style="width:66%"></div></td><td class="pct">33 %</td></tr>
+          <tr><td>Sí, pero menos dinero que ahora</td><td><div class="bar" style="width:42%"></div></td><td class="pct">21 %</td></tr>
+          <tr><td>Debería pagarlo solo la empresa privada</td><td><div class="bar" style="width:12%"></div></td><td class="pct">6 %</td></tr>
+          <tr><td>No sabe / No contesta</td><td><div class="bar" style="width:4%"></div></td><td class="pct">2 %</td></tr>
+        </tbody>
+      </table>
+      <div class="src">Fuente: encuesta realizada a 1500 personas mayores de 18 años (datos ficticios para práctica).</div>
+    </div>
+
+    <h3>Para hablar</h3>
+    <ul class="q">
+      <li>¿Coincide su opinión con la de la mayoría?</li>
+      <li>¿Hay algún dato que le sorprenda?</li>
+      <li>¿Por qué cree que un 33 % piensa que no se debe gastar dinero?</li>
+    </ul>
+
+    <h3>Posibles preguntas del entrevistador</h3>
+    <ul class="q">
+      <li>¿Qué opina del turismo espacial de las empresas privadas?</li>
+      <li>¿Le gustaría viajar al espacio?</li>
+      <li>¿Qué beneficios tiene la investigación espacial para la vida diaria?</li>
+    </ul>
+
+    <h3>Frases útiles</h3>
+    <div class="chunks">
+      <div class="chunk"><h4>Dar tu respuesta</h4><ul>
+        <li>Yo habría respondido que…</li>
+        <li>Mi respuesta sería la segunda opción, porque…</li>
+        <li>Personalmente, estoy entre los que piensan que…</li>
+      </ul></div>
+      <div class="chunk"><h4>Describir los datos</h4><ul>
+        <li>La mayoría de los encuestados piensa que…</li>
+        <li>Más de un tercio / Casi la mitad…</li>
+        <li>Solo un pequeño porcentaje…</li>
+        <li>La opción más / menos votada es…</li>
+      </ul></div>
+      <div class="chunk"><h4>Comparar</h4><ul>
+        <li>Mi opinión coincide con la del 38 %</li>
+        <li>No coincido con la mayoría, ya que…</li>
+        <li>La diferencia entre… y… es bastante pequeña</li>
+      </ul></div>
+      <div class="chunk"><h4>Reaccionar</h4><ul>
+        <li>Me llama la atención que <em>+ subjuntivo</em></li>
+        <li>Me sorprende que tan poca gente <em>+ subjuntivo</em></li>
+        <li>Es lógico que <em>+ subjuntivo</em></li>
+        <li>Me lo esperaba, porque…</li>
+      </ul></div>
+      <div class="chunk"><h4>Comparar con tu país</h4><ul>
+        <li>En mi país creo que los resultados serían…</li>
+        <li>Si se hiciera esta encuesta en…, <em>+ condicional</em></li>
+      </ul></div>
+    </div>
+
+    <h3>Vocabulario útil</h3>
+    <div class="vocab"><span>exploración espacial</span><span>astronauta</span><span>satélite</span><span>misión</span><span>gasto público</span><span>prioridad</span><span>avance tecnológico</span><span>la mayoría / una minoría</span></div>
+
+    <div class="timer">
+      <span class="clock">04:00</span>
+      <button class="btn primary" data-act="start">Iniciar</button>
+      <button class="btn" data-act="reset">Reiniciar</button>
+      <button class="btn" data-set="240">Tarea completa 4 min</button>
+    </div>
+  </section>
+
+  <div class="general">
+    <h3>Para todas las tareas: ganar tiempo y reaccionar</h3>
+    <div class="chunks">
+      <div class="chunk"><h4>Ganar tiempo</h4><ul>
+        <li>Pues, a ver…</li>
+        <li>Es una buena pregunta…</li>
+        <li>Déjeme pensar un momento…</li>
+        <li>¿Cómo lo diría…?</li>
+      </ul></div>
+      <div class="chunk"><h4>Pedir aclaraciones</h4><ul>
+        <li>¿Podría repetir la pregunta, por favor?</li>
+        <li>¿Se refiere a…?</li>
+        <li>No sé si le he entendido bien…</li>
+      </ul></div>
+      <div class="chunk"><h4>Reaccionar al entrevistador</h4><ul>
+        <li>Tiene razón, pero…</li>
+        <li>Sí, es verdad, aunque…</li>
+        <li>Visto así, quizás…</li>
+        <li>No lo había pensado, pero…</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+      document.querySelectorAll('.task').forEach(s => s.classList.remove('active'));
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.dataset.target).classList.add('active');
+    });
+  });
+
+  // Timers
+  const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  document.querySelectorAll('.timer').forEach(box => {
+    const clock = box.querySelector('.clock');
+    const startBtn = box.querySelector('[data-act="start"]');
+    let initial = box.querySelector('[data-set]') ? +box.querySelector('[data-set]').dataset.set : 180;
+    let left = initial, id = null;
+    const render = () => { clock.textContent = fmt(left); clock.style.color = left <= 30 ? 'var(--accent)' : ''; };
+    const stop = () => { clearInterval(id); id = null; startBtn.textContent = 'Iniciar'; };
+    startBtn.addEventListener('click', () => {
+      if (id) { stop(); return; }
+      if (left <= 0) left = initial;
+      startBtn.textContent = 'Pausar';
+      id = setInterval(() => { left--; render(); if (left <= 0) { stop(); clock.textContent = '¡Tiempo!'; } }, 1000);
+    });
+    box.querySelector('[data-act="reset"]').addEventListener('click', () => { stop(); left = initial; render(); });
+    box.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => {
+      stop(); initial = left = +b.dataset.set; render();
+    }));
+    render();
+  });
+</script>
+</body>
+</html>
